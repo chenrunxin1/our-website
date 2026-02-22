@@ -1,0 +1,103 @@
+<!-- 资源下载面板 -->
+<div class="panel" id="resourcesPanel">
+    <div class="panel-header">
+        <h2>📁 资源下载</h2>
+        <button class="back-btn" onclick="showMenu()">← 返回菜单</button>
+    </div>
+    
+    <!-- 加群提示卡片 -->
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 25px;">
+        <div style="font-size: 50px; margin-bottom: 15px;">🔒</div>
+        <h3 style="margin-bottom: 10px; font-size: 20px;">资源仅限群成员下载</h3>
+        <p style="opacity: 0.9; margin-bottom: 20px; font-size: 14px;">加入QQ群获取完整学习资源和工具包</p>
+        
+        <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+            <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">QQ群号</div>
+            <div style="font-size: 32px; font-weight: bold; letter-spacing: 3px;" onclick="copyQQ()" id="qqNumber">170294461</div>
+            <div style="font-size: 12px; opacity: 0.8; margin-top: 8px;">👆 点击群号可复制</div>
+        </div>
+        
+        <button class="action-btn" style="background: white; color: #667eea; font-weight: bold;" onclick="copyQQ()">
+            📋 复制群号
+        </button>
+    </div>
+    
+    <!-- 资源列表（加锁状态） -->
+    <div class="main-menu" style="margin-top: 20px;">
+        <div class="item" style="display: block; opacity: 0.6;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="font-size: 30px;">🔒</div>
+                <div style="flex: 1;">
+                    <div class="item-title">📚 学习工具包完整版</div>
+                    <div class="item-meta">包含所有工具的离线版本 | 5 MB</div>
+                </div>
+            </div>
+            <button class="action-btn" style="margin-top: 10px; background: #95a5a6;" disabled>
+                加群后下载
+            </button>
+        </div>
+        
+        <div class="item" style="display: block; opacity: 0.6;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="font-size: 30px;">🔒</div>
+                <div style="flex: 1;">
+                    <div class="item-title">📚 全科作业答案库</div>
+                    <div class="item-meta">PDF格式 | 每日更新</div>
+                </div>
+            </div>
+            <button class="action-btn" style="margin-top: 10px; background: #95a5a6;" disabled>
+                加群后下载
+            </button>
+        </div>
+        
+        <div class="item" style="display: block; opacity: 0.6;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="font-size: 30px;">🔒</div>
+                <div style="flex: 1;">
+                    <div class="item-title">📖 电子课本合集</div>
+                    <div class="item-meta">ZIP格式 | 50 MB</div>
+                </div>
+            </div>
+            <button class="action-btn" style="margin-top: 10px; background: #95a5a6;" disabled>
+                加群后下载
+            </button>
+        </div>
+        
+        <div class="item" style="display: block; opacity: 0.6;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="font-size: 30px;">🔒</div>
+                <div style="flex: 1;">
+                    <div class="item-title">📝 学霸笔记分享</div>
+                    <div class="item-meta">DOCX格式 | 12 MB</div>
+                </div>
+            </div>
+            <button class="action-btn" style="margin-top: 10px; background: #95a5a6;" disabled>
+                加群后下载
+            </button>
+        </div>
+    </div>
+    
+    <!-- 加群指引 -->
+    <div class="card" style="margin-top: 25px;">
+        <h3 style="margin-bottom: 15px; color: #2c3e50;">📱 如何加入群聊？</h3>
+        <div style="font-size: 14px; color: #555; line-height: 2;">
+            <div>1️⃣ 打开QQ，点击右上角"+"号</div>
+            <div>2️⃣ 选择"加好友/群"</div>
+            <div>3️⃣ 输入群号 <strong style="color: #667eea;">170294461</strong></div>
+            <div>4️⃣ 填写验证信息，等待审核</div>
+            <div>5️⃣ 入群后在"群文件"下载所有资源</div>
+        </div>
+    </div>
+    
+    <!-- 群福利说明 -->
+    <div class="card" style="margin-top: 15px; background: linear-gradient(135deg, #fff9c4, #ffecb3);">
+        <h3 style="margin-bottom: 15px; color: #856404;">🎁 群成员专属福利</h3>
+        <div style="font-size: 14px; color: #555; line-height: 2.2;">
+            ✅ 每日作业答案同步更新<br>
+            ✅ 完整学习工具包免费下载<br>
+            ✅ 学霸笔记和学习资料分享<br>
+            ✅ 在线答疑和学习交流<br>
+            ✅ 考试重点和复习资料
+        </div>
+    </div>
+</div>
