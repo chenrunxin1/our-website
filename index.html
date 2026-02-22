@@ -1,103 +1,1078 @@
-<!-- 资源下载面板 -->
-<div class="panel" id="resourcesPanel">
-    <div class="panel-header">
-        <h2>📁 资源下载</h2>
-        <button class="back-btn" onclick="showMenu()">← 返回菜单</button>
-    </div>
-    
-    <!-- 加群提示卡片 -->
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 25px;">
-        <div style="font-size: 50px; margin-bottom: 15px;">🔒</div>
-        <h3 style="margin-bottom: 10px; font-size: 20px;">资源仅限群成员下载</h3>
-        <p style="opacity: 0.9; margin-bottom: 20px; font-size: 14px;">加入QQ群获取完整学习资源和工具包</p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎓 学习工具包 v1.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
         
-        <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
-            <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">QQ群号</div>
-            <div style="font-size: 32px; font-weight: bold; letter-spacing: 3px;" onclick="copyQQ()" id="qqNumber">170294461</div>
-            <div style="font-size: 12px; opacity: 0.8; margin-top: 8px;">👆 点击群号可复制</div>
-        </div>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 15px;
+            color: #333;
+        }
         
-        <button class="action-btn" style="background: white; color: #667eea; font-weight: bold;" onclick="copyQQ()">
-            📋 复制群号
-        </button>
-    </div>
-    
-    <!-- 资源列表（加锁状态） -->
-    <div class="main-menu" style="margin-top: 20px;">
-        <div class="item" style="display: block; opacity: 0.6;">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div style="font-size: 30px;">🔒</div>
-                <div style="flex: 1;">
-                    <div class="item-title">📚 学习工具包完整版</div>
-                    <div class="item-meta">包含所有工具的离线版本 | 5 MB</div>
-                </div>
-            </div>
-            <button class="action-btn" style="margin-top: 10px; background: #95a5a6;" disabled>
-                加群后下载
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .main-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .menu-btn {
+            background: white;
+            border: none;
+            padding: 25px 15px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            color: #333;
+        }
+        
+        .menu-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        .menu-btn:active {
+            transform: translateY(-2px);
+        }
+        
+        .menu-btn i {
+            font-size: 35px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .btn-1 { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .btn-2 { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
+        .btn-3 { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; }
+        .btn-4 { background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; }
+        .btn-5 { background: linear-gradient(135deg, #fa709a, #fee140); color: white; }
+        
+        .panel {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+        }
+        
+        .panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .panel-header h2 {
+            color: #667eea;
+            font-size: 20px;
+        }
+        
+        .back-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        .back-btn:hover {
+            background: #7f8c8d;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+            font-size: 13px;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .action-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .action-btn:hover {
+            background: #5568d3;
+        }
+        
+        .action-btn.delete {
+            background: #e74c3c;
+        }
+        
+        .action-btn.delete:hover {
+            background: #c0392b;
+        }
+        
+        .item-list {
+            margin-top: 15px;
+        }
+        
+        .item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #667eea;
+        }
+        
+        .item.completed {
+            border-left-color: #27ae60;
+            opacity: 0.7;
+        }
+        
+        .item-info {
+            flex: 1;
+        }
+        
+        .item-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+        
+        .item-meta {
+            font-size: 11px;
+            color: #7f8c8d;
+        }
+        
+        .timer-display {
+            text-align: center;
+            font-size: 60px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .timer-controls {
+            text-align: center;
+        }
+        
+        .timer-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 8px;
+        }
+        
+        .timer-btn:hover {
+            background: #5568d3;
+        }
+        
+        .timer-btn.pause {
+            background: #f39c12;
+        }
+        
+        .timer-btn.reset {
+            background: #95a5a6;
+        }
+        
+        .timer-status {
+            text-align: center;
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        
+        .note-card {
+            background: #fff9c4;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .note-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .note-title {
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 6px;
+            color: #333;
+        }
+        
+        .note-preview {
+            font-size: 13px;
+            color: #666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .note-date {
+            font-size: 11px;
+            color: #999;
+            margin-top: 6px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .modal-close:hover {
+            color: #333;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+        }
+        
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-top: 4px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .qq-toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #27ae60;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            z-index: 9999;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            font-size: 15px;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        @media (max-width: 600px) {
+            .main-menu {
+                grid-template-columns: 1fr;
+            }
+            
+            .timer-display {
+                font-size: 45px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 学习工具包 v1.0</h1>
+            <p>让学习更高效，让进步看得见</p>
+        </header>
+        
+        <!-- 主菜单 -->
+        <div class="main-menu" id="mainMenu">
+            <button class="menu-btn btn-1" onclick="showPanel('planner')">
+                <i>📋</i>
+                学习计划
+            </button>
+            <button class="menu-btn btn-2" onclick="showPanel('timer')">
+                <i>⏱️</i>
+                专注计时
+            </button>
+            <button class="menu-btn btn-3" onclick="showPanel('notes')">
+                <i>📝</i>
+                笔记整理
+            </button>
+            <button class="menu-btn btn-4" onclick="showPanel('resources')">
+                <i>📁</i>
+                资源下载
+            </button>
+            <button class="menu-btn btn-5" onclick="showAbout()">
+                <i>ℹ️</i>
+                关于
             </button>
         </div>
         
-        <div class="item" style="display: block; opacity: 0.6;">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div style="font-size: 30px;">🔒</div>
-                <div style="flex: 1;">
-                    <div class="item-title">📚 全科作业答案库</div>
-                    <div class="item-meta">PDF格式 | 每日更新</div>
+        <!-- 学习计划面板 -->
+        <div class="panel" id="plannerPanel">
+            <div class="panel-header">
+                <h2>📋 学习计划管理器</h2>
+                <button class="back-btn" onclick="showMenu()">← 返回</button>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="subjectCount">0</div>
+                    <div class="stat-label">科目数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="taskCount">0</div>
+                    <div class="stat-label">任务数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="completedCount">0</div>
+                    <div class="stat-label">已完成</div>
                 </div>
             </div>
-            <button class="action-btn" style="margin-top: 10px; background: #95a5a6;" disabled>
-                加群后下载
-            </button>
+            
+            <div class="form-group">
+                <label>添加新科目</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="subjectInput" placeholder="输入科目名称">
+                    <button class="action-btn" onclick="addSubject()">添加</button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>添加新任务</label>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <select id="taskSubject" style="flex: 1; min-width: 100px;">
+                        <option value="">选择科目</option>
+                    </select>
+                    <input type="text" id="taskInput" placeholder="任务内容" style="flex: 2; min-width: 120px;">
+                    <select id="taskPriority" style="flex: 1; min-width: 70px;">
+                        <option value="高">高</option>
+                        <option value="中" selected>中</option>
+                        <option value="低">低</option>
+                    </select>
+                    <button class="action-btn" onclick="addTask()">添加</button>
+                </div>
+            </div>
+            
+            <div class="item-list" id="taskList"></div>
         </div>
         
-        <div class="item" style="display: block; opacity: 0.6;">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div style="font-size: 30px;">🔒</div>
-                <div style="flex: 1;">
-                    <div class="item-title">📖 电子课本合集</div>
-                    <div class="item-meta">ZIP格式 | 50 MB</div>
+        <!-- 专注计时面板 -->
+        <div class="panel" id="timerPanel">
+            <div class="panel-header">
+                <h2>⏱️ 专注计时器</h2>
+                <button class="back-btn" onclick="showMenu()">← 返回</button>
+            </div>
+            
+            <div class="timer-status" id="timerStatus">准备开始专注学习</div>
+            <div class="timer-display" id="timerDisplay">25:00</div>
+            
+            <div class="timer-controls">
+                <button class="timer-btn" id="startBtn" onclick="toggleTimer()">开始专注</button>
+                <button class="timer-btn reset" onclick="resetTimer()">重置</button>
+            </div>
+            
+            <div style="margin-top: 25px; text-align: center;">
+                <label style="margin-right: 8px; font-size: 13px;">专注：</label>
+                <select id="workTime" onchange="updateTimerSettings()" style="padding: 5px;">
+                    <option value="25">25分钟</option>
+                    <option value="45">45分钟</option>
+                    <option value="60">60分钟</option>
+                </select>
+                
+                <label style="margin-left: 15px; margin-right: 8px; font-size: 13px;">休息：</label>
+                <select id="breakTime" onchange="updateTimerSettings()" style="padding: 5px;">
+                    <option value="5">5分钟</option>
+                    <option value="10">10分钟</option>
+                    <option value="15">15分钟</option>
+                </select>
+            </div>
+            
+            <div style="margin-top: 25px;">
+                <h3 style="margin-bottom: 12px; font-size: 16px;">📊 今日统计</h3>
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="todaySessions">0</div>
+                        <div class="stat-label">专注次数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="todayMinutes">0</div>
+                        <div class="stat-label">专注分钟</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="todayGoal">0%</div>
+                        <div class="stat-label">目标完成</div>
+                    </div>
                 </div>
             </div>
-            <button class="action-btn" style="margin-top: 10px; background: #95a5a6;" disabled>
-                加群后下载
-            </button>
         </div>
         
-        <div class="item" style="display: block; opacity: 0.6;">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div style="font-size: 30px;">🔒</div>
-                <div style="flex: 1;">
-                    <div class="item-title">📝 学霸笔记分享</div>
-                    <div class="item-meta">DOCX格式 | 12 MB</div>
+        <!-- 笔记整理面板 -->
+        <div class="panel" id="notesPanel">
+            <div class="panel-header">
+                <h2>📝 笔记整理器</h2>
+                <button class="back-btn" onclick="showMenu()">← 返回</button>
+            </div>
+            
+            <button class="action-btn" onclick="openNoteModal()">+ 新建笔记</button>
+            
+            <div class="item-list" id="notesList"></div>
+        </div>
+        
+        <!-- 资源下载面板 -->
+        <div class="panel" id="resourcesPanel">
+            <div class="panel-header">
+                <h2>📁 资源下载</h2>
+                <button class="back-btn" onclick="showMenu()">← 返回</button>
+            </div>
+            
+            <!-- 加群提示卡片 -->
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 25px;">
+                <div style="font-size: 45px; margin-bottom: 12px;">🔒</div>
+                <h3 style="margin-bottom: 8px; font-size: 18px;">资源仅限群成员下载</h3>
+                <p style="opacity: 0.9; margin-bottom: 18px; font-size: 13px;">加入QQ群获取完整学习资源和工具包</p>
+                
+                <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                    <div style="font-size: 13px; opacity: 0.9; margin-bottom: 5px;">QQ群号</div>
+                    <div style="font-size: 28px; font-weight: bold; letter-spacing: 3px; cursor: pointer;" onclick="copyQQ()" id="qqNumber">170294461</div>
+                    <div style="font-size: 11px; opacity: 0.8; margin-top: 6px;">👆 点击群号可复制</div>
+                </div>
+                
+                <button class="action-btn" style="background: white; color: #667eea; font-weight: bold; font-size: 14px;" onclick="copyQQ()">
+                    📋 复制群号
+                </button>
+            </div>
+            
+            <!-- 资源列表（加锁状态） -->
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div class="item" style="display: block; opacity: 0.6;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="font-size: 26px;">🔒</div>
+                        <div style="flex: 1;">
+                            <div class="item-title">📚 学习工具包完整版</div>
+                            <div class="item-meta">包含所有工具的离线版本 | 5 MB</div>
+                        </div>
+                    </div>
+                    <button class="action-btn" style="margin-top: 8px; background: #95a5a6;" disabled>加群后下载</button>
+                </div>
+                
+                <div class="item" style="display: block; opacity: 0.6;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="font-size: 26px;">🔒</div>
+                        <div style="flex: 1;">
+                            <div class="item-title">📚 全科作业答案库</div>
+                            <div class="item-meta">PDF格式 | 每日更新</div>
+                        </div>
+                    </div>
+                    <button class="action-btn" style="margin-top: 8px; background: #95a5a6;" disabled>加群后下载</button>
+                </div>
+                
+                <div class="item" style="display: block; opacity: 0.6;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="font-size: 26px;">🔒</div>
+                        <div style="flex: 1;">
+                            <div class="item-title">📖 电子课本合集</div>
+                            <div class="item-meta">ZIP格式 | 50 MB</div>
+                        </div>
+                    </div>
+                    <button class="action-btn" style="margin-top: 8px; background: #95a5a6;" disabled>加群后下载</button>
+                </div>
+                
+                <div class="item" style="display: block; opacity: 0.6;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="font-size: 26px;">🔒</div>
+                        <div style="flex: 1;">
+                            <div class="item-title">📝 学霸笔记分享</div>
+                            <div class="item-meta">DOCX格式 | 12 MB</div>
+                        </div>
+                    </div>
+                    <button class="action-btn" style="margin-top: 8px; background: #95a5a6;" disabled>加群后下载</button>
                 </div>
             </div>
-            <button class="action-btn" style="margin-top: 10px; background: #95a5a6;" disabled>
-                加群后下载
-            </button>
+            
+            <!-- 加群指引 -->
+            <div class="card">
+                <h3 style="margin-bottom: 12px; color: #2c3e50; font-size: 16px;">📱 如何加入群聊？</h3>
+                <div style="font-size: 13px; color: #555; line-height: 2;">
+                    <div>1️⃣ 打开QQ，点击右上角"+"号</div>
+                    <div>2️⃣ 选择"加好友/群"</div>
+                    <div>3️⃣ 输入群号 <strong style="color: #667eea;">170294461</strong></div>
+                    <div>4️⃣ 填写验证信息，等待审核</div>
+                    <div>5️⃣ 入群后在"群文件"下载所有资源</div>
+                </div>
+            </div>
+            
+            <!-- 群福利说明 -->
+            <div class="card" style="background: linear-gradient(135deg, #fff9c4, #ffecb3);">
+                <h3 style="margin-bottom: 12px; color: #856404; font-size: 16px;">🎁 群成员专属福利</h3>
+                <div style="font-size: 13px; color: #555; line-height: 2.2;">
+                    ✅ 每日作业答案同步更新<br>
+                    ✅ 完整学习工具包免费下载<br>
+                    ✅ 学霸笔记和学习资料分享<br>
+                    ✅ 在线答疑和学习交流<br>
+                    ✅ 考试重点和复习资料
+                </div>
+            </div>
         </div>
     </div>
     
-    <!-- 加群指引 -->
-    <div class="card" style="margin-top: 25px;">
-        <h3 style="margin-bottom: 15px; color: #2c3e50;">📱 如何加入群聊？</h3>
-        <div style="font-size: 14px; color: #555; line-height: 2;">
-            <div>1️⃣ 打开QQ，点击右上角"+"号</div>
-            <div>2️⃣ 选择"加好友/群"</div>
-            <div>3️⃣ 输入群号 <strong style="color: #667eea;">170294461</strong></div>
-            <div>4️⃣ 填写验证信息，等待审核</div>
-            <div>5️⃣ 入群后在"群文件"下载所有资源</div>
+    <!-- 笔记编辑模态框 -->
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="noteModalTitle" style="font-size: 18px;">新建笔记</h3>
+                <button class="modal-close" onclick="closeNoteModal()">×</button>
+            </div>
+            <div class="form-group">
+                <label>标题</label>
+                <input type="text" id="noteTitle" placeholder="输入笔记标题">
+            </div>
+            <div class="form-group">
+                <label>内容</label>
+                <textarea id="noteContent" rows="8" placeholder="输入笔记内容..."></textarea>
+            </div>
+            <button class="action-btn" onclick="saveNote()">保存</button>
+            <button class="action-btn delete" onclick="closeNoteModal()">取消</button>
         </div>
     </div>
     
-    <!-- 群福利说明 -->
-    <div class="card" style="margin-top: 15px; background: linear-gradient(135deg, #fff9c4, #ffecb3);">
-        <h3 style="margin-bottom: 15px; color: #856404;">🎁 群成员专属福利</h3>
-        <div style="font-size: 14px; color: #555; line-height: 2.2;">
-            ✅ 每日作业答案同步更新<br>
-            ✅ 完整学习工具包免费下载<br>
-            ✅ 学霸笔记和学习资料分享<br>
-            ✅ 在线答疑和学习交流<br>
-            ✅ 考试重点和复习资料
+    <!-- 笔记查看模态框 -->
+    <div class="modal" id="viewNoteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="viewNoteTitle" style="font-size: 18px;">笔记标题</h3>
+                <button class="modal-close" onclick="closeViewNoteModal()">×</button>
+            </div>
+            <div id="viewNoteContent" style="white-space: pre-wrap; line-height: 1.8; font-size: 14px;"></div>
+            <div style="margin-top: 15px;">
+                <button class="action-btn" onclick="editCurrentNote()">编辑</button>
+                <button class="action-btn delete" onclick="deleteCurrentNote()">删除</button>
+            </div>
         </div>
     </div>
-</div>
+
+    <script>
+        // ==================== 数据管理 ====================
+        let appData = {
+            subjects: [],
+            tasks: [],
+            notes: [],
+            timerStats: {
+                sessions: 0,
+                minutes: 0,
+                lastDate: new Date().toDateString()
+            }
+        };
+        
+        function loadData() {
+            const saved = localStorage.getItem('learningToolkit');
+            if (saved) {
+                appData = JSON.parse(saved);
+                if (appData.timerStats.lastDate !== new Date().toDateString()) {
+                    appData.timerStats.sessions = 0;
+                    appData.timerStats.minutes = 0;
+                    appData.timerStats.lastDate = new Date().toDateString();
+                }
+            }
+            updateStats();
+            renderTasks();
+            renderNotes();
+            updateSubjectSelect();
+        }
+        
+        function saveData() {
+            localStorage.setItem('learningToolkit', JSON.stringify(appData));
+            updateStats();
+        }
+        
+        // ==================== 导航 ====================
+        function showMenu() {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('mainMenu').style.display = 'grid';
+        }
+        
+        function showPanel(panel) {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(panel + 'Panel').classList.add('active');
+            
+            if (panel === 'planner') {
+                renderTasks();
+                updateSubjectSelect();
+                updateStats();
+            } else if (panel === 'notes') {
+                renderNotes();
+            }
+        }
+        
+        function showAbout() {
+            alert('🎓 学习工具包 v1.0\n\n功能：\n• 学习计划管理\n• 专注计时器\n• 笔记整理\n• 资源下载\n\n数据保存在浏览器本地，安全私密。\n\nQQ群：170294461\n祝你学习进步！📚');
+        }
+        
+        // ==================== 学习计划 ====================
+        function addSubject() {
+            const input = document.getElementById('subjectInput');
+            const name = input.value.trim();
+            if (!name) return alert('请输入科目名称');
+            
+            appData.subjects.push({
+                id: Date.now(),
+                name: name,
+                created: new Date().toLocaleDateString()
+            });
+            
+            input.value = '';
+            saveData();
+            updateSubjectSelect();
+            alert('科目添加成功！');
+        }
+        
+        function updateSubjectSelect() {
+            const select = document.getElementById('taskSubject');
+            select.innerHTML = '<option value="">选择科目</option>';
+            appData.subjects.forEach(s => {
+                select.innerHTML += `<option value="${s.name}">${s.name}</option>`;
+            });
+        }
+        
+        function addTask() {
+            const subject = document.getElementById('taskSubject').value;
+            const content = document.getElementById('taskInput').value.trim();
+            const priority = document.getElementById('taskPriority').value;
+            
+            if (!subject) return alert('请选择科目');
+            if (!content) return alert('请输入任务内容');
+            
+            appData.tasks.push({
+                id: Date.now(),
+                subject: subject,
+                content: content,
+                priority: priority,
+                completed: false,
+                created: new Date().toLocaleString()
+            });
+            
+            document.getElementById('taskInput').value = '';
+            saveData();
+            renderTasks();
+            alert('任务添加成功！');
+        }
+        
+        function renderTasks() {
+            const list = document.getElementById('taskList');
+            if (appData.tasks.length === 0) {
+                list.innerHTML = '<div class="empty-state"><i>📋</i>暂无任务，添加一个开始学习吧！</div>';
+                return;
+            }
+            
+            list.innerHTML = appData.tasks.map(task => `
+                <div class="item ${task.completed ? 'completed' : ''}">
+                    <div class="item-info">
+                        <div class="item-title">
+                            ${task.completed ? '✅' : '⬜'} 
+                            [${task.priority}] ${task.subject}: ${task.content}
+                        </div>
+                        <div class="item-meta">${task.created}</div>
+                    </div>
+                    <button class="action-btn ${task.completed ? 'delete' : ''}" 
+                            onclick="toggleTask(${task.id})">
+                        ${task.completed ? '撤销' : '完成'}
+                    </button>
+                    <button class="action-btn delete" onclick="deleteTask(${task.id})">删除</button>
+                </div>
+            `).join('');
+        }
+        
+        function toggleTask(id) {
+            const task = appData.tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                saveData();
+                renderTasks();
+            }
+        }
+        
+        function deleteTask(id) {
+            if (confirm('确定删除这个任务吗？')) {
+                appData.tasks = appData.tasks.filter(t => t.id !== id);
+                saveData();
+                renderTasks();
+            }
+        }
+        
+        function updateStats() {
+            document.getElementById('subjectCount').textContent = appData.subjects.length;
+            document.getElementById('taskCount').textContent = appData.tasks.length;
+            document.getElementById('completedCount').textContent = appData.tasks.filter(t => t.completed).length;
+            
+            document.getElementById('todaySessions').textContent = appData.timerStats.sessions;
+            document.getElementById('todayMinutes').textContent = appData.timerStats.minutes;
+            const goal = Math.min(100, Math.round((appData.timerStats.minutes / 120) * 100));
+            document.getElementById('todayGoal').textContent = goal + '%';
+        }
+        
+        // ==================== 专注计时器 ====================
+        let timerInterval = null;
+        let timeLeft = 25 * 60;
+        let isRunning = false;
+        let isWorkTime = true;
+        let workTime = 25;
+        let breakTime = 5;
+        
+        function updateTimerDisplay() {
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function toggleTimer() {
+            const btn = document.getElementById('startBtn');
+            
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                btn.textContent = '继续';
+                btn.classList.add('pause');
+                document.getElementById('timerStatus').textContent = '已暂停';
+            } else {
+                isRunning = true;
+                btn.textContent = '暂停';
+                btn.classList.remove('pause');
+                document.getElementById('timerStatus').textContent = 
+                    isWorkTime ? '🔥 专注学习中...' : '☕ 休息时间...';
+                
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        
+                        try {
+                            const audio = new AudioContext();
+                            const osc = audio.createOscillator();
+                            osc.connect(audio.destination);
+                            osc.frequency.value = 1000;
+                            osc.start();
+                            setTimeout(() => osc.stop(), 500);
+                        } catch(e) {}
+                        
+                        if (isWorkTime) {
+                            appData.timerStats.sessions++;
+                            appData.timerStats.minutes += workTime;
+                            saveData();
+                            
+                            alert('🎉 专注时间结束！休息一下吧~');
+                            isWorkTime = false;
+                            timeLeft = breakTime * 60;
+                            document.getElementById('timerStatus').textContent = '☕ 休息时间';
+                            btn.textContent = '开始休息';
+                        } else {
+                            alert('💪 休息结束！准备开始下一轮专注~');
+                            isWorkTime = true;
+                            timeLeft = workTime * 60;
+                            document.getElementById('timerStatus').textContent = '🔥 准备专注';
+                            btn.textContent = '开始专注';
+                        }
+                        updateTimerDisplay();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            isWorkTime = true;
+            timeLeft = workTime * 60;
+            updateTimerDisplay();
+            document.getElementById('startBtn').textContent = '开始专注';
+            document.getElementById('startBtn').classList.remove('pause');
+            document.getElementById('timerStatus').textContent = '准备开始专注学习';
+        }
+        
+        function updateTimerSettings() {
+            workTime = parseInt(document.getElementById('workTime').value);
+            breakTime = parseInt(document.getElementById('breakTime').value);
+            if (!isRunning) {
+                timeLeft = workTime * 60;
+                updateTimerDisplay();
+            }
+        }
+        
+        // ==================== 笔记管理 ====================
+        let currentNoteId = null;
+        
+        function openNoteModal() {
+            currentNoteId = null;
+            document.getElementById('noteModalTitle').textContent = '新建笔记';
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteContent').value = '';
+            document.getElementById('noteModal').classList.add('active');
+        }
+        
+        function closeNoteModal() {
+            document.getElementById('noteModal').classList.remove('active');
+        }
+        
+        function saveNote() {
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('noteContent').value.trim();
+            
+            if (!title) return alert('请输入标题');
+            if (!content) return alert('请输入内容');
+            
+            if (currentNoteId) {
+                const note = appData.notes.find(n => n.id === currentNoteId);
+                if (note) {
+                    note.title = title;
+                    note.content = content;
+                    note.updated = new Date().toLocaleString();
+                }
+            } else {
+                appData.notes.push({
+                    id: Date.now(),
+                    title: title,
+                    content: content,
+                    created: new Date().toLocaleString(),
+                    updated: new Date().toLocaleString()
+                });
+            }
+            
+            saveData();
+            renderNotes();
+            closeNoteModal();
+            alert('笔记保存成功！');
+        }
+        
+        function renderNotes() {
+            const list = document.getElementById('notesList');
+            if (appData.notes.length === 0) {
+                list.innerHTML = '<div class="empty-state"><i>📝</i>暂无笔记，创建一个记录学习心得吧！</div>';
+                return;
+            }
+            
+            list.innerHTML = appData.notes.map(note => `
+                <div class="note-card" onclick="viewNote(${note.id})">
+                    <div class="note-title">📄 ${note.title}</div>
+                    <div class="note-preview">${note.content}</div>
+                    <div class="note-date">${note.updated}</div>
+                </div>
+            `).join('');
+        }
+        
+        function viewNote(id) {
+            const note = appData.notes.find(n => n.id === id);
+            if (!note) return;
+            
+            currentNoteId = id;
+            document.getElementById('viewNoteTitle').textContent = note.title;
+            document.getElementById('viewNoteContent').textContent = note.content;
+            document.getElementById('viewNoteModal').classList.add('active');
+        }
+        
+        function closeViewNoteModal() {
+            document.getElementById('viewNoteModal').classList.remove('active');
+        }
+        
+        function editCurrentNote() {
+            const note = appData.notes.find(n => n.id === currentNoteId);
+            if (!note) return;
+            
+            closeViewNoteModal();
+            document.getElementById('noteModalTitle').textContent = '编辑笔记';
+            document.getElementById('noteTitle').value = note.title;
+            document.getElementById('noteContent').value = note.content;
+            document.getElementById('noteModal').classList.add('active');
+        }
+        
+        function deleteCurrentNote() {
+            if (confirm('确定删除这篇笔记吗？')) {
+                appData.notes = appData.notes.filter(n => n.id !== currentNoteId);
+                saveData();
+                renderNotes();
+                closeViewNoteModal();
+                alert('笔记已删除');
+            }
+        }
+        
+        // ==================== 复制群号 ====================
+        function copyQQ() {
+            const qq = '170294461';
+            navigator.clipboard.writeText(qq).then(() => {
+                // 移除旧的提示
+                const oldToast = document.querySelector('.qq-toast');
+                if (oldToast) oldToast.remove();
+                
+                // 创建新提示
+                const toast = document.createElement('div');
+                toast.className = 'qq-toast';
+                toast.textContent = '✅ 群号已复制！快去QQ添加吧~';
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transition = 'opacity 0.3s';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }).catch(() => {
+                alert('群号：170294461\n\n请手动复制添加到QQ');
+            });
+        }
+        
+        // ==================== 初始化 ====================
+        window.onload = function() {
+            loadData();
+            updateTimerDisplay();
+        };
+    </script>
+</body>
+</html>
+
+
